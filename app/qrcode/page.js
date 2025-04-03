@@ -65,59 +65,75 @@ export default function QRCode() {
 
     if (!qrData) {
         return (
-            <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
-                <div className="max-w-md mx-auto bg-white rounded-lg shadow-md p-6 text-center">
-                    <h1 className="text-2xl font-bold text-gray-900 mb-4">No QR Code Generated</h1>
-                    <p className="text-gray-600 mb-6">Please pre-register to generate your QR code.</p>
-                    <Link 
-                        href="/form"
-                        className="inline-flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                    >
-                        Pre-register Now
-                    </Link>
+            <div className="min-h-screen bg-gradient-to-b from-blue-50 to-blue-400 py-12 px-4 sm:px-6 lg:px-8">
+                <div className="max-w-2xl mx-auto">
+                    <div className="text-center mb-8">
+                        <h1 className="text-3xl font-bold text-blue-900 mb-2">No QR Code Generated</h1>
+                        <p className="text-blue-600">Please pre-register to generate your QR code</p>
+                    </div>
+                    
+                    <div className="bg-white rounded-xl shadow-lg p-8 text-center">
+                        <p className="text-gray-600 mb-8">You have not generated a QR code yet. Please fill out the patient information form to create one.</p>
+                        <Link 
+                            href="/form"
+                            className="inline-flex items-center justify-center py-3 px-6 border border-transparent rounded-lg shadow-sm text-lg font-semibold text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                                <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
+                            </svg>
+                            Pre-register Now
+                        </Link>
+                    </div>
                 </div>
             </div>
         );
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-md mx-auto bg-white rounded-lg shadow-md p-6">
-                <h1 className="text-2xl font-bold text-gray-900 mb-6">Your QR Code</h1>
+        <div className="min-h-screen bg-gradient-to-b from-blue-50 to-blue-400 py-12 px-4 sm:px-6 lg:px-8">
+            <div className="max-w-2xl mx-auto">
+                <div className="text-center mb-8">
+                    <h1 className="text-3xl font-bold text-blue-900 mb-2">Your QR Code</h1>
+                    <p className="text-blue-600">Show this to hospital staff when you arrive</p>
+                </div>
                 
-                <div className="text-center">
-                    <div ref={qrRef} className="inline-block p-4 bg-white rounded-lg shadow">
-                        <QRCodeSVG value={qrData} size={200} />
-                    </div>
-                    
-                    <div className="mt-6 text-left">
-                        <h2 className="text-lg font-medium text-gray-900 mb-4">Patient Information</h2>
-                        <div className="space-y-2 text-sm text-gray-600">
-                            <p><span className="font-medium">Name:</span> {patientData.name}</p>
-                            <p><span className="font-medium">Date of Birth:</span> {`${patientData.dateOfBirth.year}-${patientData.dateOfBirth.month}-${patientData.dateOfBirth.day}`}</p>
-                            <p><span className="font-medium">Health Card Number:</span> {patientData.healthCardNumber}</p>
-                            <p><span className="font-medium">Symptoms:</span> {patientData.symptoms}</p>
-                            <p><span className="font-medium">Severity:</span> {patientData.severity}/10</p>
+                <div className="bg-white rounded-xl shadow-lg p-8">
+                    <div className="text-center">
+                        <div ref={qrRef} className="inline-block p-6 bg-white rounded-xl shadow-md">
+                            <QRCodeSVG value={qrData} size={200} />
                         </div>
-                    </div>
+                        
+                        <div className="mt-8 text-left">
+                            <h2 className="text-xl font-bold text-blue-900 mb-4">Patient Information</h2>
+                            <div className="space-y-3 text-base text-gray-700">
+                                <p><span className="font-semibold text-blue-900">Name:</span> {patientData.name}</p>
+                                <p><span className="font-semibold text-blue-900">Date of Birth:</span> {`${patientData.dateOfBirth.year}-${patientData.dateOfBirth.month}-${patientData.dateOfBirth.day}`}</p>
+                                <p><span className="font-semibold text-blue-900">Health Card Number:</span> {patientData.healthCardNumber}</p>
+                                <p><span className="font-semibold text-blue-900">Symptoms:</span> {patientData.symptoms}</p>
+                                <p><span className="font-semibold text-blue-900">Severity:</span> <span className="text-blue-600 font-bold">{patientData.severity}/10</span></p>
+                            </div>
+                        </div>
 
-                    <p className="mt-6 text-sm text-gray-600">
-                        Please show this QR code to hospital staff when you arrive.
-                    </p>
-
-                    <div className="mt-6 space-y-4">
-                        <Link 
-                            href="/form"
-                            className="inline-flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                        >
-                            Update Information
-                        </Link>
-                        <button
-                            onClick={saveQRCode}
-                            className="ml-4 inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                        >
-                            Save QR Code
-                        </button>
+                        <div className="mt-8 space-y-4">
+                            <Link 
+                                href="/form"
+                                className="inline-flex items-center justify-center py-3 px-6 border border-transparent rounded-lg shadow-sm text-lg font-semibold text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                                </svg>
+                                Update Information
+                            </Link>
+                            <button
+                                onClick={saveQRCode}
+                                className="ml-4 inline-flex items-center justify-center py-3 px-6 border border-blue-200 rounded-lg text-lg font-semibold text-blue-900 bg-white hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M7.707 10.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V6h-2v5.586l-1.293-1.293z" />
+                                </svg>
+                                Save QR Code
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
