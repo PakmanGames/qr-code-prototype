@@ -2,11 +2,25 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function Navigation() {
     const pathname = usePathname();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isVisible, setIsVisible] = useState(false);
+
+    useEffect(() => {
+        if (isMenuOpen) {
+            setIsVisible(true);
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+            const timer = setTimeout(() => {
+                setIsVisible(false);
+            }, 300);
+            return () => clearTimeout(timer);
+        }
+    }, [isMenuOpen]);
 
     const closeMenu = () => {
         setIsMenuOpen(false);
@@ -47,13 +61,13 @@ export default function Navigation() {
                     <div className="flex items-center sm:hidden">
                         <button
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
-                            className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
+                            className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 transition-colors duration-200"
                             aria-expanded="false"
                         >
                             <span className="sr-only">Open main menu</span>
                             {/* Hamburger icon */}
                             <svg
-                                className={`${isMenuOpen ? 'hidden' : 'block'} h-6 w-6`}
+                                className={`${isMenuOpen ? 'hidden' : 'block'} h-6 w-6 transition-transform duration-200`}
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
                                 viewBox="0 0 24 24"
@@ -63,7 +77,7 @@ export default function Navigation() {
                             </svg>
                             {/* Close icon */}
                             <svg
-                                className={`${isMenuOpen ? 'block' : 'hidden'} h-6 w-6`}
+                                className={`${isMenuOpen ? 'block' : 'hidden'} h-6 w-6 transition-transform duration-200`}
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
                                 viewBox="0 0 24 24"
@@ -77,22 +91,34 @@ export default function Navigation() {
             </div>
 
             {/* Mobile menu overlay */}
-            <div className={`${isMenuOpen ? 'block' : 'hidden'} sm:hidden fixed inset-0 z-40`}>
+            <div 
+                className={`fixed inset-0 z-40 sm:hidden transition-opacity duration-300`}
+                style={{ 
+                    opacity: isVisible ? 1 : 0,
+                    visibility: isVisible ? 'visible' : 'hidden'
+                }}
+            >
                 {/* Overlay background */}
                 <div 
-                    className="fixed inset-0 bg-gray-600 bg-opacity-75 transition-opacity"
+                    className="fixed inset-0 bg-gray-600 transition-opacity duration-300 ease-in-out"
+                    style={{ opacity: isMenuOpen ? 0.75 : 0 }}
                     onClick={closeMenu}
                 ></div>
                 
                 {/* Mobile menu panel */}
-                <div className="fixed inset-y-0 right-0 max-w-xs w-full bg-white shadow-xl">
+                <div 
+                    className="fixed inset-y-0 right-0 max-w-xs w-full bg-white shadow-xl transition-transform duration-300 ease-in-out"
+                    style={{
+                        transform: isMenuOpen ? 'translateX(0)' : 'translateX(100%)'
+                    }}
+                >
                     <div className="h-full flex flex-col">
                         <div className="px-4 pt-5 pb-2">
                             <div className="flex items-center justify-between">
                                 <div className="text-xl font-bold text-blue-600">Menu</div>
                                 <button
                                     onClick={closeMenu}
-                                    className="rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
+                                    className="rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 transition-colors duration-200"
                                 >
                                     <span className="sr-only">Close menu</span>
                                     <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -106,7 +132,7 @@ export default function Navigation() {
                                 <Link
                                     href="/form"
                                     onClick={closeMenu}
-                                    className={`group flex items-center px-2 py-2 text-base font-medium rounded-md ${
+                                    className={`group flex items-center px-2 py-2 text-base font-medium rounded-md transition-colors duration-200 ${
                                         pathname === '/form'
                                             ? 'bg-blue-50 text-blue-600'
                                             : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
@@ -117,7 +143,7 @@ export default function Navigation() {
                                 <Link
                                     href="/scanner"
                                     onClick={closeMenu}
-                                    className={`group flex items-center px-2 py-2 text-base font-medium rounded-md ${
+                                    className={`group flex items-center px-2 py-2 text-base font-medium rounded-md transition-colors duration-200 ${
                                         pathname === '/scanner'
                                             ? 'bg-blue-50 text-blue-600'
                                             : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
