@@ -18,7 +18,6 @@ export default function Form() {
     });
 
     const onSubmit = (data) => {
-        // Generate QR code with the form data
         const qrData = JSON.stringify(data);
         setQrCode(qrData);
     };

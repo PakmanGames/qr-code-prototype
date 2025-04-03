@@ -9,7 +9,7 @@ const inter = Inter({
 
 export const metadata = {
   title: "Hospital QR System",
-  description: "A system for patients to fill forms and generate QR codes for hospital staff",
+  description: "A system for patients to pre-register for hospital visits and generate QR codes for hospital staff to scan",
 };
 
 export default function RootLayout({ children }) {
