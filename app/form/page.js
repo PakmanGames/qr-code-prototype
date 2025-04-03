@@ -5,9 +5,10 @@ import { useForm } from 'react-hook-form';
 import { QRCodeSVG } from 'qrcode.react';
 import { Slider } from '@radix-ui/react-slider';
 import { Label } from '@radix-ui/react-label';
+import { useRouter } from 'next/navigation';
 
 export default function Form() {
-    const [qrCode, setQrCode] = useState('');
+    const router = useRouter();
     const { register, handleSubmit, watch, setValue } = useForm({
         defaultValues: {
             name: '',
@@ -20,7 +21,8 @@ export default function Form() {
 
     const onSubmit = (data) => {
         const qrData = JSON.stringify(data);
-        setQrCode(qrData);
+        localStorage.setItem('patientQRData', qrData);
+        router.push('/qrcode');
     };
 
     // Generate year options from 1925 to 2025
@@ -148,18 +150,6 @@ export default function Form() {
                         Generate QR Code
                     </button>
                 </form>
-
-                {qrCode && (
-                    <div className="mt-8 text-center">
-                        <h2 className="text-lg font-medium text-gray-900 mb-4">Your QR Code</h2>
-                        <div className="inline-block p-4 bg-white rounded-lg shadow">
-                            <QRCodeSVG value={qrCode} size={200} />
-                        </div>
-                        <p className="mt-4 text-sm text-gray-600">
-                            Please show this QR code to hospital staff when you arrive.
-                        </p>
-                    </div>
-                )}
             </div>
         </div>
     );
