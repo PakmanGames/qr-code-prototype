@@ -99,6 +99,10 @@ export default function Scanner() {
                                 <span className="ml-2 text-gray-900">{scannedData.name}</span>
                             </div>
                             <div>
+                                <span className="font-medium text-gray-700">Date of Birth:</span>
+                                <span className="ml-2 text-gray-900">{scannedData.dateOfBirth.month}-{scannedData.dateOfBirth.day}-{scannedData.dateOfBirth.year}</span>
+                            </div>
+                            <div>
                                 <span className="font-medium text-gray-700">Health Card Number:</span>
                                 <span className="ml-2 text-gray-900">{scannedData.healthCardNumber}</span>
                             </div>

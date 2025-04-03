@@ -11,6 +11,7 @@ export default function Form() {
     const { register, handleSubmit, watch, setValue } = useForm({
         defaultValues: {
             name: '',
+            dateOfBirth: '',
             healthCardNumber: '',
             symptoms: '',
             severity: 5
@@ -21,6 +22,12 @@ export default function Form() {
         const qrData = JSON.stringify(data);
         setQrCode(qrData);
     };
+
+    // Generate year options from 1925 to 2025
+    const currentYear = new Date().getFullYear();
+    const years = Array.from({ length: 2025 - 1925 + 1 }, (_, i) => 2025 - i);
+    const months = Array.from({ length: 12 }, (_, i) => i + 1);
+    const days = Array.from({ length: 31 }, (_, i) => i + 1);
 
     return (
         <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
@@ -38,6 +45,43 @@ export default function Form() {
                             {...register('name', { required: true })}
                             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                         />
+                    </div>
+
+                    <div>
+                        <Label className="block text-sm font-medium text-gray-700 mb-2">
+                            Date of Birth
+                        </Label>
+                        <div className="grid grid-cols-3 gap-4">
+                            <select
+                                {...register('dateOfBirth.year', { required: true })}
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                            >
+                                <option value="">Year</option>
+                                {years.map(year => (
+                                    <option key={year} value={year}>{year}</option>
+                                ))}
+                            </select>
+                            <select
+                                {...register('dateOfBirth.month', { required: true })}
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                            >
+                                <option value="">Month</option>
+                                {months.map(month => (
+                                    <option key={month} value={month}>
+                                        {new Date(2000, month - 1).toLocaleString('default', { month: 'long' })}
+                                    </option>
+                                ))}
+                            </select>
+                            <select
+                                {...register('dateOfBirth.day', { required: true })}
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                            >
+                                <option value="">Day</option>
+                                {days.map(day => (
+                                    <option key={day} value={day}>{day}</option>
+                                ))}
+                            </select>
+                        </div>
                     </div>
 
                     <div>
@@ -68,14 +112,30 @@ export default function Form() {
                         <Label className="block text-sm font-medium text-gray-700 mb-2">
                             Pain/Symptom Severity (1-10)
                         </Label>
-                        <Slider
-                            value={[watch('severity')]}
-                            onValueChange={(value) => setValue('severity', value[0])}
-                            min={1}
-                            max={10}
-                            step={1}
-                            className="w-full"
-                        />
+                        <div className="relative pt-1">
+                            <Slider
+                                value={[watch('severity')]}
+                                onValueChange={(value) => setValue('severity', value[0])}
+                                min={1}
+                                max={10}
+                                step={1}
+                                className="relative flex items-center select-none touch-none w-full h-5"
+                            >
+                                <div className="relative flex-1 h-1 bg-gray-200 rounded-full">
+                                    <div 
+                                        className="absolute h-full bg-blue-600 rounded-full"
+                                        style={{ width: `${(watch('severity') - 1) * 11.11}%` }}
+                                    />
+                                </div>
+                                <div 
+                                    className="absolute w-4 h-4 bg-blue-600 rounded-full shadow-lg"
+                                    style={{ 
+                                        left: `${(watch('severity') - 1) * 11.11}%`,
+                                        transform: 'translateX(-50%)'
+                                    }}
+                                />
+                            </Slider>
+                        </div>
                         <div className="mt-2 text-center text-sm text-gray-600">
                             {watch('severity')}
                         </div>
