@@ -9,6 +9,8 @@ import { useRouter } from 'next/navigation';
 
 export default function Form() {
     const router = useRouter();
+    const [showConfirmation, setShowConfirmation] = useState(false);
+    const [formData, setFormData] = useState(null);
     const { register, handleSubmit, watch, setValue } = useForm({
         defaultValues: {
             name: '',
@@ -20,9 +22,19 @@ export default function Form() {
     });
 
     const onSubmit = (data) => {
-        const qrData = JSON.stringify(data);
+        setFormData(data);
+        setShowConfirmation(true);
+    };
+
+    const handleConfirm = () => {
+        const qrData = JSON.stringify(formData);
         localStorage.setItem('patientQRData', qrData);
         router.push('/qrcode');
+    };
+
+    const handleCancel = () => {
+        setShowConfirmation(false);
+        setFormData(null);
     };
 
     // Generate year options from 1925 to 2025
@@ -151,6 +163,36 @@ export default function Form() {
                     </button>
                 </form>
             </div>
+
+            {/* Confirmation Modal */}
+            {showConfirmation && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+                    <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
+                        <h2 className="text-xl font-bold text-gray-900 mb-4">Confirm Information</h2>
+                        <div className="space-y-3 text-sm text-gray-600 mb-6">
+                            <p><span className="font-medium">Name:</span> {formData.name}</p>
+                            <p><span className="font-medium">Date of Birth:</span> {`${formData.dateOfBirth.year}-${formData.dateOfBirth.month}-${formData.dateOfBirth.day}`}</p>
+                            <p><span className="font-medium">Health Card Number:</span> {formData.healthCardNumber}</p>
+                            <p><span className="font-medium">Symptoms:</span> {formData.symptoms}</p>
+                            <p><span className="font-medium">Severity:</span> {formData.severity}/10</p>
+                        </div>
+                        <div className="flex justify-evenly space-x-3">
+                            <button
+                                onClick={handleCancel}
+                                className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                            >
+                                No, Edit Info
+                            </button>
+                            <button
+                                onClick={handleConfirm}
+                                className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                            >
+                                Yes, Confirm
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
