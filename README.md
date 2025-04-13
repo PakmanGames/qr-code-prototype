@@ -2,6 +2,25 @@
 This is the prototype to our solution to reduce operational costs for hospitals.  
 We created a QR Code hybrid-check-in system for patients rushing to the ER at hospitals.
 
+## Technologies Used
+
+### Frontend
+![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white)
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+
+### Libraries
+![QRCode.react](https://img.shields.io/badge/QRCode.react-000000?style=for-the-badge&logo=qrcode&logoColor=white)
+![HTML5-QRCode](https://img.shields.io/badge/HTML5_QRCode-000000?style=for-the-badge&logo=qrcode&logoColor=white)
+![React Hook Form](https://img.shields.io/badge/React_Hook_Form-EC5990?style=for-the-badge&logo=react-hook-form&logoColor=white)
+
+### Development Tools
+![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
+![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)
+![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
+![VS Code](https://img.shields.io/badge/VS_Code-007ACC?style=for-the-badge&logo=visual-studio-code&logoColor=white)
+
 ## Current Features
 - **Patient Pre-registration Form**
   - Collects essential patient information including name, date of birth, and health card number
